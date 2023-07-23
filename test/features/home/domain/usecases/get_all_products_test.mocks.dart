@@ -6,8 +6,9 @@
 import 'dart:async' as _i4;
 
 import 'package:dartz/dartz.dart' as _i2;
+import 'package:desafio_products/core/errors/failure.dart' as _i5;
 import 'package:desafio_products/features/home/domain/entities/product.dart'
-    as _i5;
+    as _i6;
 import 'package:desafio_products/features/home/domain/repositories/products_repository.dart'
     as _i3;
 import 'package:mockito/mockito.dart' as _i1;
@@ -39,14 +40,15 @@ class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
 class MockProductsRepository extends _i1.Mock
     implements _i3.ProductsRepository {
   @override
-  _i4.Future<_i2.Either<Exception, List<_i5.Product>>> call() =>
+  _i4.Future<_i2.Either<_i5.Failure, List<_i6.Product>>> call() =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [],
         ),
-        returnValue: _i4.Future<_i2.Either<Exception, List<_i5.Product>>>.value(
-            _FakeEither_0<Exception, List<_i5.Product>>(
+        returnValue:
+            _i4.Future<_i2.Either<_i5.Failure, List<_i6.Product>>>.value(
+                _FakeEither_0<_i5.Failure, List<_i6.Product>>(
           this,
           Invocation.method(
             #call,
@@ -54,13 +56,13 @@ class MockProductsRepository extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i4.Future<_i2.Either<Exception, List<_i5.Product>>>.value(
-                _FakeEither_0<Exception, List<_i5.Product>>(
+            _i4.Future<_i2.Either<_i5.Failure, List<_i6.Product>>>.value(
+                _FakeEither_0<_i5.Failure, List<_i6.Product>>(
           this,
           Invocation.method(
             #call,
             [],
           ),
         )),
-      ) as _i4.Future<_i2.Either<Exception, List<_i5.Product>>>);
+      ) as _i4.Future<_i2.Either<_i5.Failure, List<_i6.Product>>>);
 }
