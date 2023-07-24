@@ -1,4 +1,7 @@
 import 'package:desafio_products/core/platform/network_info.dart';
+import 'package:desafio_products/features/favorites/data/datasources/favorite_local_datasource.dart';
+import 'package:desafio_products/features/favorites/data/repositories/favorite_repository_imp.dart';
+import 'package:desafio_products/features/favorites/domain/usecases/set_favorite_product.dart';
 import 'package:desafio_products/features/home/data/datasources/product_remote_datasource.dart';
 import 'package:desafio_products/features/home/data/repositories/product_repository_imp.dart';
 import 'package:desafio_products/features/home/domain/usecases/get_all_products.dart';
@@ -26,11 +29,16 @@ setUp() {
   //Usecases
   getIt.registerLazySingleton<GetAllProductsUsecaseImp>(
       () => GetAllProductsUsecaseImp(getIt<ProductRepositoryImp>()));
+  getIt.registerLazySingleton<SetFavoriteProdutUsecaseImp>(
+      () => SetFavoriteProdutUsecaseImp(getIt<FavoriteRepositoryImp>()));
 
   //Repositories
   getIt.registerLazySingleton(() => ProductRepositoryImp(
       getIt<ProductRemoteDatasourceImp>(), getIt<NetworkInfoImp>()));
+  getIt.registerLazySingleton(
+      () => FavoriteRepositoryImp(getIt<FavoriteLocalDatasourceImp>()));
 
   //Datasources
   getIt.registerLazySingleton(() => ProductRemoteDatasourceImp(getIt<Dio>()));
+  getIt.registerLazySingleton(() => FavoriteLocalDatasourceImp());
 }
