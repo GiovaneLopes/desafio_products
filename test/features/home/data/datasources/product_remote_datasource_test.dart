@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:desafio_products/features/home/data/datasources/product_remote_datasource.dart';
 import 'package:desafio_products/features/home/domain/entities/product.dart';
 import 'package:dio/dio.dart';
@@ -27,8 +25,7 @@ main() {
         "rating": {"rate": 3.9, "count": 120}
       }
     ];
-    final httpResponse =
-        Response(requestOptions: RequestOptions(), data: jsonEncode(data));
+    final httpResponse = Response(requestOptions: RequestOptions(), data: data);
     when(dio.get(any)).thenAnswer((_) async => httpResponse);
 
     final result = await datasource();

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:desafio_products/features/home/data/constants/home_constants.dart';
 import 'package:desafio_products/features/home/data/errors/home_errors.dart';
 import 'package:desafio_products/features/home/data/models/product_model.dart';
@@ -17,9 +15,9 @@ class ProductRemoteDatasourceImp implements ProductRemoteDatasource {
   Future<List<Product>> call() async {
     try {
       final response = await dio.get(HomeConstants.allProducts);
-      final json = jsonDecode(response.data);
-      return List.generate(json.length,
-          (index) => ProductModel.fromMap(json[index] as Map<String, dynamic>));
+      final list = response.data as List;
+      return List.generate(list.length,
+          (index) => ProductModel.fromMap(list[index] as Map<String, dynamic>));
     } catch (e) {
       throw HomeServerError();
     }
