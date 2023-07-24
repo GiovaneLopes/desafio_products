@@ -3,6 +3,7 @@ import 'package:desafio_products/core/ui/product_card.dart';
 import 'package:desafio_products/features/home/presenter/home_controller.dart';
 import 'package:desafio_products/features/home/presenter/pages/home_error_page.dart';
 import 'package:desafio_products/features/home/presenter/widgets/search_text_form_field.dart';
+import 'package:desafio_products/features/product_details/presenter/pages/product_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -112,14 +113,14 @@ class _HomePageState extends State<HomePage> {
                             (product) => ProductCard(
                               product: product,
                               onPressed: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => ProductDetailPage(
-                                //       product: product,
-                                //     ),
-                                //   ),
-                                // );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ProductDetailPage(
+                                      product: product,
+                                    ),
+                                  ),
+                                );
                               },
                             ),
                           )
