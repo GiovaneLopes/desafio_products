@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:desafio_products/injection_container.dart' as di;
 
-// @GenerateNiceMocks([MockSpec<HomeController>()])
-// import 'home_page_test.mocks.dart';
-
 main() async {
   setUp(() async {
     await di.setUp();

@@ -3,6 +3,7 @@ import 'package:desafio_products/features/home/data/datasources/product_remote_d
 import 'package:desafio_products/features/home/data/repositories/product_repository_imp.dart';
 import 'package:desafio_products/features/home/domain/usecases/get_all_products.dart';
 import 'package:desafio_products/features/home/presenter/home_controller.dart';
+import 'package:desafio_products/features/product_details/presenter/product_details_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -19,6 +20,8 @@ setUp() {
   //Controllers
   getIt.registerLazySingleton<HomeController>(
       () => HomeController(getIt<GetAllProductsUsecaseImp>()));
+  getIt.registerLazySingleton<ProductDetailsController>(
+      () => ProductDetailsController());
 
   //Usecases
   getIt.registerLazySingleton<GetAllProductsUsecaseImp>(
