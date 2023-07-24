@@ -50,10 +50,10 @@ class ProductModel extends Product {
     return ProductModel(
       id: map['id']?.toInt() ?? 0,
       title: map['title'] ?? '',
-      price: map['price'] ?? '',
+      price: double.tryParse(map['price'].toString()) ?? 0.0,
       category: map['category'] ?? '',
       description: map['description'] ?? '',
-      imageUrl: map['imageUrl'] ?? '',
+      imageUrl: map['image'] ?? '',
       rate: RatingModel.fromMap(map['rating']),
     );
   }
