@@ -16,6 +16,8 @@ Show product list, product details screen and save products as favorites.
 - Clean Architecture
 - SharedPreferences
 - Dio
+- GetIt
+- Mockito
 
 ## Installation and Usage
 To install and use the project, follow these steps:
