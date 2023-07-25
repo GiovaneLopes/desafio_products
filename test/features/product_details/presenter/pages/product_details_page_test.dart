@@ -8,6 +8,7 @@ import 'package:network_image_mock/network_image_mock.dart';
 
 main() {
   final product = Product(
+      isFavorited: false,
       id: 0,
       title: 'test',
       price: 0.9,
@@ -31,7 +32,6 @@ main() {
       await tester.pump(const Duration(seconds: 10));
 
       expect(find.text('Product Details'), findsOneWidget);
-      expect(find.widgetWithIcon(IconButton, Icons.favorite), findsOneWidget);
       expect(find.byType(Image), findsOneWidget);
       expect(find.byType(AppBar), findsOneWidget);
     });

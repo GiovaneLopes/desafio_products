@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:desafio_products/core/errors/failure.dart';
 import 'package:desafio_products/core/platform/network_info.dart';
+import 'package:desafio_products/features/favorites/data/datasources/favorite_local_datasource.dart';
 import 'package:desafio_products/features/home/data/datasources/product_remote_datasource.dart';
 import 'package:desafio_products/features/home/data/repositories/product_repository_imp.dart';
 import 'package:desafio_products/features/home/domain/entities/product.dart';
@@ -8,14 +9,19 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-@GenerateNiceMocks(
-    [MockSpec<ProductRemoteDatasource>(), MockSpec<NetworkInfo>()])
+@GenerateNiceMocks([
+  MockSpec<ProductRemoteDatasource>(),
+  MockSpec<NetworkInfo>(),
+  MockSpec<FavoriteLocalDatasource>()
+])
 import 'product_repository_imp_test.mocks.dart';
 
 main() {
   final datasource = MockProductRemoteDatasource();
   final networkInfo = MockNetworkInfo();
-  final repository = ProductRepositoryImp(datasource, networkInfo);
+  final favoriteLocalDatasource = MockFavoriteLocalDatasource();
+  final repository =
+      ProductRepositoryImp(datasource, networkInfo, favoriteLocalDatasource);
 
   test('Should return List<Product>', () async {
     when(networkInfo.isConnected).thenAnswer((_) async => true);

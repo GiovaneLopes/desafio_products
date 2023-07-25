@@ -1,5 +1,7 @@
 import 'package:desafio_products/core/resources/images.dart';
 import 'package:desafio_products/core/ui/product_card.dart';
+import 'package:desafio_products/features/favorites/presenter/favorite_controller.dart';
+import 'package:desafio_products/features/favorites/presenter/pages/favorite_page.dart';
 import 'package:desafio_products/features/home/presenter/home_controller.dart';
 import 'package:desafio_products/features/home/presenter/pages/home_error_page.dart';
 import 'package:desafio_products/features/home/presenter/widgets/search_text_form_field.dart';
@@ -18,6 +20,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final searchController = TextEditingController();
   final controller = GetIt.I<HomeController>();
+  final favoriteController = GetIt.I<FavoriteController>();
 
   @override
   void initState() {
@@ -44,7 +47,15 @@ class _HomePageState extends State<HomePage> {
               style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FavoritePage(),
+                  ),
+                ).then((value) async => await controller.getProductList());
+                setState(() {});
+              },
               icon: const Icon(
                 Icons.favorite_border_outlined,
               ),
@@ -112,15 +123,26 @@ class _HomePageState extends State<HomePage> {
                           .map(
                             (product) => ProductCard(
                               product: product,
-                              onPressed: () {
-                                Navigator.push(
+                              hasFavoriteButton: true,
+                              onFavorited: () async {
+                                await favoriteController.setFavoriteProduct(
+                                  product.copyWith(
+                                      isFavorited: !product.isFavorited),
+                                );
+                                await controller.getProductList();
+                                setState(() {});
+                              },
+                              onPressed: () async {
+                                await Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => ProductDetailPage(
                                       product: product,
                                     ),
                                   ),
-                                );
+                                ).then((value) async =>
+                                    await controller.getProductList());
+                                setState(() {});
                               },
                             ),
                           )
