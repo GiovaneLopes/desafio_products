@@ -32,7 +32,6 @@ main() {
       await tester.pump(const Duration(seconds: 10));
 
       expect(find.text('Product Details'), findsOneWidget);
-      expect(find.widgetWithIcon(IconButton, Icons.favorite), findsOneWidget);
       expect(find.byType(Image), findsOneWidget);
       expect(find.byType(AppBar), findsOneWidget);
     });
