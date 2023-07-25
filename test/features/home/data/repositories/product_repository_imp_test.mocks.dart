@@ -6,6 +6,8 @@
 import 'dart:async' as _i3;
 
 import 'package:desafio_products/core/platform/network_info.dart' as _i5;
+import 'package:desafio_products/features/favorites/data/datasources/favorite_local_datasource.dart'
+    as _i6;
 import 'package:desafio_products/features/home/data/datasources/product_remote_datasource.dart'
     as _i2;
 import 'package:desafio_products/features/home/domain/entities/product.dart'
@@ -50,4 +52,30 @@ class MockNetworkInfo extends _i1.Mock implements _i5.NetworkInfo {
         returnValue: _i3.Future<bool>.value(false),
         returnValueForMissingStub: _i3.Future<bool>.value(false),
       ) as _i3.Future<bool>);
+}
+
+/// A class which mocks [FavoriteLocalDatasource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockFavoriteLocalDatasource extends _i1.Mock
+    implements _i6.FavoriteLocalDatasource {
+  @override
+  _i3.Future<void> setFavorite(_i4.Product? product) => (super.noSuchMethod(
+        Invocation.method(
+          #setFavorite,
+          [product],
+        ),
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
+  @override
+  _i3.Future<List<_i4.Product>> getFavoriteList() => (super.noSuchMethod(
+        Invocation.method(
+          #getFavoriteList,
+          [],
+        ),
+        returnValue: _i3.Future<List<_i4.Product>>.value(<_i4.Product>[]),
+        returnValueForMissingStub:
+            _i3.Future<List<_i4.Product>>.value(<_i4.Product>[]),
+      ) as _i3.Future<List<_i4.Product>>);
 }

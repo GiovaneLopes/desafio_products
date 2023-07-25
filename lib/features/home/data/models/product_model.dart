@@ -5,6 +5,7 @@ import 'package:desafio_products/features/home/domain/entities/product.dart';
 
 class ProductModel extends Product {
   ProductModel({
+    required super.isFavorited,
     required super.id,
     required super.title,
     required super.price,
@@ -22,8 +23,10 @@ class ProductModel extends Product {
     String? description,
     String? imageUrl,
     RatingModel? rate,
+    bool? isFavorited,
   }) {
     return ProductModel(
+      isFavorited: isFavorited ?? this.isFavorited,
       id: id ?? this.id,
       title: title ?? this.title,
       price: price ?? this.price,
@@ -41,13 +44,15 @@ class ProductModel extends Product {
       'price': price,
       'category': category,
       'description': description,
-      'imageUrl': imageUrl,
-      'rate': rate.toMap()
+      'image': imageUrl,
+      'rating': rate.toMap(),
+      'isFavorited': isFavorited,
     };
   }
 
   factory ProductModel.fromMap(Map<String, dynamic> map) {
     return ProductModel(
+      isFavorited: map['isFavorited'] ?? false,
       id: map['id']?.toInt() ?? 0,
       title: map['title'] ?? '',
       price: double.tryParse(map['price'].toString()) ?? 0.0,
@@ -58,6 +63,19 @@ class ProductModel extends Product {
     );
   }
 
+  factory ProductModel.fromEntity(Product entity) {
+    return ProductModel(
+      isFavorited: entity.isFavorited,
+      id: entity.id,
+      title: entity.title,
+      price: entity.price,
+      category: entity.category,
+      description: entity.description,
+      imageUrl: entity.imageUrl,
+      rate: entity.rate,
+    );
+  }
+
   String toJson() => json.encode(toMap());
 
   factory ProductModel.fromJson(String source) =>
@@ -65,7 +83,7 @@ class ProductModel extends Product {
 
   @override
   String toString() {
-    return 'ProductModel(id: $id, title: $title, price: $price, category: $category, description: $description, imageUrl: $imageUrl, rating: $rate)';
+    return 'ProductModel(id: $id, title: $title, price: $price, category: $category, description: $description, image: $imageUrl, rating: $rate)';
   }
 
   @override

@@ -12,16 +12,19 @@ class HomeController {
   final ValueNotifier<List<Product>> list = ValueNotifier<List<Product>>([]);
 
   List<Product> cachedList = <Product>[];
+  String searchCached = '';
 
-  void getProductList() async {
-    state.value = HomeState.loading;
+  Future<void> getProductList() async {
     try {
       final response = await _getAllProductsUsecase();
       response.fold((l) {
         state.value = HomeState.error;
-      }, (listResponse) {
+      }, (listResponse) async {
         list.value = listResponse;
         cachedList = listResponse;
+        if (searchCached.isNotEmpty) {
+          await onSearch(searchCached);
+        }
       });
       state.value = HomeState.success;
     } catch (e) {
@@ -29,7 +32,7 @@ class HomeController {
     }
   }
 
-  void onSearch(String? searchText) async {
+  Future<void> onSearch(String? searchText) async {
     if (searchText != null && searchText.isNotEmpty) {
       List<Product> temp = <Product>[];
       list.value.map((product) {
@@ -37,10 +40,12 @@ class HomeController {
           temp.add(product);
         }
       }).toList();
+      searchCached = searchText;
       list.value = temp;
       state.value = HomeState.success;
     } else {
       list.value = cachedList;
+      searchCached = '';
       state.value = HomeState.success;
     }
   }

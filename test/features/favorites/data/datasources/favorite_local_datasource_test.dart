@@ -9,6 +9,7 @@ import '../repositories/favorite_repository_test.mocks.dart';
 main() async {
   final datasource = MockFavoriteLocalDatasource();
   final product = Product(
+      isFavorited: false,
       id: 0,
       title: 'test',
       price: 0.9,

@@ -19,16 +19,6 @@ class FavoriteRepositoryImp implements FavoriteRepository {
   }
 
   @override
-  Future<Either<Failure, void>> removeFavorite(int productId) async {
-    try {
-      await datasource.removeFavorite(productId);
-      return const Right(null);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
   Future<Either<Failure, List<Product>>> getFavoriteList() async {
     try {
       final response = await datasource.getFavoriteList();

@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:desafio_products/features/favorites/presenter/favorite_controller.dart';
 import 'package:desafio_products/features/home/domain/entities/product.dart';
 import 'package:desafio_products/features/product_details/presenter/product_details_controller.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,15 @@ class ProductDetailPage extends StatefulWidget {
 class _ProductDetailPageState extends State<ProductDetailPage> {
   final ProductDetailsController controller =
       GetIt.I<ProductDetailsController>();
+  final FavoriteController favoriteController = GetIt.I<FavoriteController>();
+  late bool isFavorited;
+
+  @override
+  void initState() {
+    super.initState();
+    isFavorited = widget.product.isFavorited;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,10 +40,16 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   fontSize: 20, fontWeight: FontWeight.w500),
             ),
             IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.favorite,
-                color: Colors.red,
+              onPressed: () {
+                setState(() {
+                  isFavorited = !isFavorited;
+                  favoriteController.setFavoriteProduct(
+                      widget.product.copyWith(isFavorited: isFavorited));
+                });
+              },
+              icon: Icon(
+                isFavorited ? Icons.favorite : Icons.favorite_outline,
+                color: isFavorited ? Colors.red : Colors.grey,
               ),
             )
           ],

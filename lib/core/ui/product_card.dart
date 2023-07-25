@@ -5,9 +5,15 @@ import 'package:google_fonts/google_fonts.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
+  final bool? hasFavoriteButton;
   final Function() onPressed;
+  final Function()? onFavorited;
   const ProductCard(
-      {super.key, required this.product, required this.onPressed});
+      {super.key,
+      required this.product,
+      required this.onPressed,
+      this.onFavorited,
+      this.hasFavoriteButton = false});
 
   @override
   Widget build(BuildContext context) {
@@ -69,13 +75,17 @@ class ProductCard extends StatelessWidget {
                           ],
                         ),
                       ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.favorite,
-                          color: Colors.red,
+                      if (hasFavoriteButton!)
+                        IconButton(
+                          onPressed: onFavorited,
+                          icon: Icon(
+                            product.isFavorited
+                                ? Icons.favorite
+                                : Icons.favorite_outline,
+                            color:
+                                product.isFavorited ? Colors.red : Colors.grey,
+                          ),
                         ),
-                      ),
                     ],
                   ),
                   Row(

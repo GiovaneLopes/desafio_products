@@ -13,6 +13,7 @@ main() {
   final datasource = MockFavoriteLocalDatasource();
   final repository = FavoriteRepositoryImp(datasource);
   final product = Product(
+      isFavorited: false,
       id: 0,
       title: 'test',
       price: 0.9,
