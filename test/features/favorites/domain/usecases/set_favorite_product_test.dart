@@ -14,6 +14,7 @@ main() {
   final repository = MockFavoriteRepository();
   final usecase = SetFavoriteProdutUsecaseImp(repository);
   final product = Product(
+      isFavorited: false,
       id: 0,
       title: 'test',
       price: 0.9,

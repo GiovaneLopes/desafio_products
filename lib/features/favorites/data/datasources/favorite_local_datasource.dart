@@ -1,13 +1,12 @@
 import 'dart:convert';
+import 'package:desafio_products/features/favorites/data/constants/favorite_contants.dart';
 import 'package:desafio_products/features/favorites/data/errors/favorite_errors.dart';
 import 'package:desafio_products/features/home/data/models/product_model.dart';
 import 'package:desafio_products/features/home/domain/entities/product.dart';
-import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class FavoriteLocalDatasource {
   Future<void> setFavorite(Product product);
-  Future<void> removeFavorite(int productId);
   Future<List<Product>> getFavoriteList();
 }
 
@@ -19,20 +18,25 @@ class FavoriteLocalDatasourceImp implements FavoriteLocalDatasource {
   Future<void> setFavorite(Product product) async {
     try {
       final prefs = await preferences;
-      final cachedFavoriteList = prefs.getString('favorites');
-      if (cachedFavoriteList != null) {
-        final favoriteList = jsonDecode(cachedFavoriteList) as List;
-        final newList = <Product>[];
-        for (var element in favoriteList) {
-          newList.add(ProductModel.fromMap(element as Map<String, dynamic>));
-        }
-        newList.add(product);
-        prefs.setString('favorites', jsonEncode(newList));
+      final List<Product> favorites = await getFavoriteList();
+      if (favorites.isEmpty) {
+        await prefs.setString(
+            FavoriteConstants.favorite, jsonEncode([product]));
       } else {
-        prefs.setString('favorites', jsonEncode([product]));
+        bool isUpdated = false;
+        for (int i = 0; i < favorites.length; i++) {
+          if (favorites[i].id == product.id) {
+            isUpdated = true;
+            favorites[i] = product;
+          }
+        }
+        if (!isUpdated) {
+          favorites.add(product);
+        }
+        await prefs.setString(
+            FavoriteConstants.favorite, jsonEncode(favorites));
       }
     } catch (e) {
-      debugPrint('### e: $e');
       throw FavoriteError();
     }
   }
@@ -41,40 +45,21 @@ class FavoriteLocalDatasourceImp implements FavoriteLocalDatasource {
   Future<List<Product>> getFavoriteList() async {
     try {
       final prefs = await preferences;
-      final cachedFavoriteList = prefs.getString('favorites');
-      if (cachedFavoriteList != null) {
-        final mapList = jsonDecode(cachedFavoriteList) as List;
-        final favoriteList = <Product>[];
-        for (var element in mapList) {
-          favoriteList
-              .add(ProductModel.fromMap(element as Map<String, dynamic>));
-        }
-
+      final String? jsonList = prefs.getString(FavoriteConstants.favorite);
+      List<Product> favoriteList = <Product>[];
+      if (jsonList != null) {
+        final map = jsonDecode(jsonList);
+        map.map((product) {
+          if (product is String) {
+            final local = ProductModel.fromJson(product);
+            if (local.isFavorited) {
+              favoriteList.add(local);
+            }
+          }
+        }).toList();
         return favoriteList;
       } else {
-        return <Product>[];
-      }
-    } catch (e) {
-      throw FavoriteError();
-    }
-  }
-
-  @override
-  Future<void> removeFavorite(int productId) async {
-    try {
-      final prefs = await preferences;
-      final cachedFavoriteList = prefs.getString('favorites');
-      if (cachedFavoriteList != null) {
-        final favoriteList = jsonDecode(cachedFavoriteList) as List;
-        final newList = <Product>[];
-        for (var element in favoriteList) {
-          final localProduct =
-              ProductModel.fromMap(element as Map<String, dynamic>);
-          if (localProduct.id != productId) {
-            newList.add(localProduct);
-          }
-        }
-        prefs.setString('favorites', jsonEncode(newList));
+        return favoriteList;
       }
     } catch (e) {
       throw FavoriteError();
